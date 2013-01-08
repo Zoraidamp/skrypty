@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # Magda Płotka
 # program pomagający w porządkach plików w danym katalogu
@@ -24,7 +23,7 @@ function usuwanie {
 echo "wybierz podopcje  
 1)Usuwanie plików zaczynających się na .
 2)Usuwanie plików nieużywanych przez więcej niż 7 dni
-3)Usuwanie plików nieużywanych przez więcej niż 1 miesiąc
+3)Usuwanie plików nieużywanych przez więcej niż 2 miesiące
 4)Usuwanie plików nieużywanych przez więcej niż 6 miesięcy
 5)Usuwanie plików nieużywanych przez więcej niż 1 rok
 6)Koniec"
@@ -33,7 +32,7 @@ read b
 case $b in
     1) find . -maxdepth 1 -type f -iname '.*' -delete ;;
     2) find . -maxdepth 1 -type f -mtime +7 -delete ;;
-    3) find . -maxdepth 1 -type f -mtime +30 -delete;;
+    3) find . -maxdepth 1 -type f -mtime +61 -delete;;
     4) find . -maxdepth 1 -type f -mtime +182 -delete;;
     5) find . -maxdepth 1 -type f -mtime +365 -delete;;
     6) exit 0;;
