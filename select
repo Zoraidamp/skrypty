@@ -1,0 +1,66 @@
+#!/bin/bash
+# Magda Płotka
+# program pomagający w porządkach plików w danym katalogu
+
+function sortowanie {
+echo "wybierz podopcje  
+1)Sortowanie plików ze względu na dzień
+2)Sortowanie plików ze względu na miesiąc
+3)Sortowanie plików ze względu na rodzaj pliku
+4)koniec"
+select c in 1 2 3 4 
+do
+    case $c in
+      1) echo '1';;
+      2) echo '2';;
+      3) echo '3';;
+      4) exit 0;;
+      *) echo "Nic nie wybrałeś"
+    esac
+ break 
+ done
+}
+
+
+function usuwanie { 
+echo "wybierz podopcje  
+1)Usuwanie plików zaczynających się na .
+2)Usuwanie plików nieużywanych przez więcej niż 7 dni
+3)Usuwanie plików nieużywanych przez więcej niż 2 miesiące
+4)Usuwanie plików nieużywanych przez więcej niż 6 miesięcy
+5)Usuwanie plików nieużywanych przez więcej niż 1 rok
+6)Koniec"
+
+select b in 1 2 3 4 
+do
+case $b in
+    1) find . -maxdepth 1 -type f -iname '.*' -delete ;;
+    2) find . -maxdepth 1 -type f -mtime +7 -delete ;;
+    3) find . -maxdepth 1 -type f -mtime +61 -delete;;
+    4) find . -maxdepth 1 -type f -mtime +182 -delete;;
+    5) find . -maxdepth 1 -type f -mtime +365 -delete;;
+    6) exit 0;;
+    *) echo "Nic nie wybrałeś"
+  esac
+
+  break
+  done
+} 
+
+
+  echo 'Program ten może uporządkować pliki na różne sposoby'
+echo "wybierz opcje  
+1)Usuwanie zbędnych plików
+2)Sortowanie plików z tworzeniem folderów
+3)koniec"
+
+select a in 1 2 3 4 
+do
+case $a in
+    1) usuwanie;;
+    2) sortowanie;;
+    3) exit 0;;
+    *) echo "Nic nie wybrałeś"
+  esac
+    break
+  done
