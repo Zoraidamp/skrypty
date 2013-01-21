@@ -1,57 +1,119 @@
 #!/bin/bash
-# Magda Płotka
-# program pomagający w porządkach plików w danym katalogu
-
-function sortowanie {
-echo "wybierz podopcje  
-1)Sortowanie plików ze względu na dzień
-2)Sortowanie plików ze względu na miesiąc
-3)Sortowanie plików ze względu na rodzaj pliku
-4)koniec"
+# kalkulator
+function wybór2 {
+c=0
+echo "podaj liczbę (c)"
 read c
-case $c in
-    1) echo '1';;
-    2) echo '2';;
-    3) echo '3';;
-    4) exit 0;;
-    *) echo "Nic nie wybrałeś"
-  esac
+zm=`echo $c | grep -E "(^*$|^/$|^+$|^-$)" | wc -l`
+if [ $zm -eq 1 ]
+then
+     echo
+else
+     echo "zły argument"
+     return
+fi
 }
-
-
-function usuwanie { 
-echo "wybierz podopcje  
-1)Usuwanie plików zaczynających się na .
-2)Usuwanie plików nieużywanych przez więcej niż 7 dni
-3)Usuwanie plików nieużywanych przez więcej niż 2 miesiące
-4)Usuwanie plików nieużywanych przez więcej niż 6 miesięcy
-5)Usuwanie plików nieużywanych przez więcej niż 1 rok
-6)Koniec"
-
-read b
-case $b in
-    1) find . -maxdepth 1 -type f -iname '.*' -delete ;;
-    2) find . -maxdepth 1 -type f -mtime +7 -delete ;;
-    3) find . -maxdepth 1 -type f -mtime +61 -delete;;
-    4) find . -maxdepth 1 -type f -mtime +182 -delete;;
-    5) find . -maxdepth 1 -type f -mtime +365 -delete;;
-    6) exit 0;;
-    *) echo "Nic nie wybrałeś"
-  esac
-} 
-
-
-  echo 'Program ten może uporządkować pliki na różne sposoby'
-echo "wybierz opcje  
-1)Usuwanie zbędnych plików
-2)Sortowanie plików z tworzeniem folderów
-3)koniec"
-
+function wybór {
+a=0
+b=0
+echo "podaj dwie liczby (a,b)"
 read a
-case $a in
-    1) usuwanie;;
-    2) sortowanie;;
-    3) exit 0;;
-    *) echo "Nic nie wybrałeś"
-  esac
-
+zm=`echo $a | grep -E "(^*$|^/$|^+$|^-$)" | wc -l`
+if [ $zm -eq 1 ]
+then
+     read b
+     zm2=`echo $b | grep -E "(^*$|^/$|^+$|^-$)" | wc -l`
+       if [ $zm -eq 1 ]
+       then 
+            echo
+      else
+           echo "zły argument"
+      fi
+else
+     echo "zły argument"
+     return
+fi
+}
+function początek {
+echo "wybierz działanie:
+1) dodawanie 3) mnożenie 5) potęgowanie
+2) odejmowanie 4) dzielenie 6) silnia 7) koniec" 
+}
+hflag=
+vflag=
+aflag=
+while getopts hvf:q OPT; do
+case $OPT in
+h) hflag=1;;
+v) vflag=1;;
+a) aflag=1;;
+q) exit;;
+*) echo "Bledny arg!";;
+esac
+done
+if [ ! -z $hflag ]; then
+echo "----POMOC----"
+echo "Jest to prosty skrypt wykonujący działania."
+echo
+echo "-------------"
+fi
+if [ ! -z $vflag ]; then
+echo "Version 1.0.0.0"
+fi
+if [ ! -z $aflag ]; then
+echo "autor:Magdalena Płotka"
+fi
+wynik=0
+echo "Prosty kalkulator"
+echo "wybierz działanie:"
+select dz in "dodawanie" "odejmowanie" "mnożenie" "dzielenie" "potęgowanie" "silnia" "koniec" 
+do
+case $dz in
+   "dodawanie") 
+wybór
+let wynik=$[$a+$b]
+echo "$a + $b = $wynik"
+początek ;;
+    "odejmowanie" ) 
+wybór
+let wynik=$[$a - $b]
+echo "$a - $b = $wynik"
+początek ;;
+    "mnożenie") 
+wybór
+let wynik=$[$a * $b]
+echo "$a * $b = $wynik"
+początek;;
+    "dzielenie") 
+wybór
+if [$b -eq 0]
+then
+    echo "błąd, nie radzę dzielić przez 0"
+    return
+else    
+     let wynik=$[$a / $b]
+     echo "$a / $b = $wynik"
+     początek
+fi;;
+    "potęgowanie") 
+wybór2
+let wynik=$[$a*$a]
+echo "$a^2 = $wynik"
+początek;;
+    "silnia")
+wybór2
+ wynik=1
+  N=$1
+  while [ $N -ge 1 ]
+  do
+    wynik=$[$wynik * $N]
+    N=$[$N - 1]
+  done
+echo "$a != $wynik"
+początek;;
+    "koniec")
+echo "miłego dnia :)" 
+exit ;;
+    *) echo "Nic nie wybrałeś"
+  esac
+  done
