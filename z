@@ -1,5 +1,9 @@
+Kalkulator.sh
+
 #!/bin/bash
 # kalkulator
+# 2013
+
 function wybór2 {
 c=0
 echo "podaj liczbę (c)"
@@ -7,10 +11,10 @@ read c
 zm=`echo $c | grep -E "(^*$|^/$|^+$|^-$)" | wc -l`
 if [ $zm -eq 1 ]
 then
-     echo
+     echo
 else
-     echo "zły argument"
-     return
+     echo "zły argument"
+     return
 fi
 }
 function wybór {
@@ -21,22 +25,22 @@ read a
 zm=`echo $a | grep -E "(^*$|^/$|^+$|^-$)" | wc -l`
 if [ $zm -eq 1 ]
 then
-     read b
-     zm2=`echo $b | grep -E "(^*$|^/$|^+$|^-$)" | wc -l`
-       if [ $zm -eq 1 ]
-       then 
-            echo
-      else
-           echo "zły argument"
-      fi
+     read b
+     zm2=`echo $b | grep -E "(^*$|^/$|^+$|^-$)" | wc -l`
+       if [ $zm -eq 1 ]
+       then 
+            echo
+      else
+           echo "zły argument"
+      fi
 else
-     echo "zły argument"
-     return
+     echo "zły argument"
+     return
 fi
 }
 function początek {
 echo "wybierz działanie:
-1) dodawanie 3) mnożenie 5) potęgowanie
+1) dodawanie 3) mnożenie 5) kwadrat
 2) odejmowanie 4) dzielenie 6) silnia 7) koniec" 
 }
 hflag=
@@ -54,6 +58,10 @@ done
 if [ ! -z $hflag ]; then
 echo "----POMOC----"
 echo "Jest to prosty skrypt wykonujący działania."
+echo "opcje:" 
+echo "-h pomoc"
+echo "-v wersja"
+echo" -a autor"
 echo
 echo "-------------"
 fi
@@ -61,59 +69,59 @@ if [ ! -z $vflag ]; then
 echo "Version 1.0.0.0"
 fi
 if [ ! -z $aflag ]; then
-echo "autor:Magdalena Płotka"
+echo "autor: Magdalena Płotka"
 fi
 wynik=0
 echo "Prosty kalkulator"
 echo "wybierz działanie:"
-select dz in "dodawanie" "odejmowanie" "mnożenie" "dzielenie" "potęgowanie" "silnia" "koniec" 
+select dz in "dodawanie" "odejmowanie" "mnożenie" "dzielenie" "kwadrat" "silnia" "koniec" 
 do
 case $dz in
-   "dodawanie") 
+   "dodawanie") 
 wybór
 let wynik=$[$a+$b]
 echo "$a + $b = $wynik"
 początek ;;
-    "odejmowanie" ) 
+    "odejmowanie" ) 
 wybór
 let wynik=$[$a - $b]
 echo "$a - $b = $wynik"
 początek ;;
-    "mnożenie") 
+    "mnożenie") 
 wybór
 let wynik=$[$a * $b]
 echo "$a * $b = $wynik"
 początek;;
-    "dzielenie") 
+    "dzielenie") 
 wybór
 if [$b -eq 0]
 then
-    echo "błąd, nie radzę dzielić przez 0"
-    return
-else    
-     let wynik=$[$a / $b]
-     echo "$a / $b = $wynik"
-     początek
+    echo "błąd, nie radzę dzielić przez 0"
+    return
+else    
+     let wynik=$[$a / $b]
+     echo "$a / $b = $wynik"
+     początek
 fi;;
-    "potęgowanie") 
+    "kwadrat") 
 wybór2
 let wynik=$[$a*$a]
 echo "$a^2 = $wynik"
 początek;;
-    "silnia")
+    "silnia")
 wybór2
- wynik=1
-  N=$1
-  while [ $N -ge 1 ]
-  do
-    wynik=$[$wynik * $N]
-    N=$[$N - 1]
-  done
+ wynik=1
+  N=$1
+  while [ $N -ge 1 ]
+  do
+    wynik=$[$wynik * $N]
+    N=$[$N - 1]
+  done
 echo "$a != $wynik"
 początek;;
-    "koniec")
+    "koniec")
 echo "miłego dnia :)" 
 exit ;;
-    *) echo "Nic nie wybrałeś"
-  esac
-  done
+    *) echo "Nic nie wybrałeś"
+  esac
+  done
