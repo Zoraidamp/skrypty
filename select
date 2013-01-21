@@ -1,66 +1,102 @@
+Organizator.sh
+
 #!/bin/bash
-# Magda Płotka
-# program pomagający w porządkach plików w danym katalogu
-
-function sortowanie {
-echo "wybierz podopcje  
-1)Sortowanie plików ze względu na dzień
-2)Sortowanie plików ze względu na miesiąc
-3)Sortowanie plików ze względu na rodzaj pliku
-4)koniec"
-select c in 1 2 3 4 
-do
-    case $c in
-      1) echo '1';;
-      2) echo '2';;
-      3) echo '3';;
-      4) exit 0;;
-      *) echo "Nic nie wybrałeś"
-    esac
- break 
- done
+function poczatek {
+ echo "wybierz co chcesz robić: 
+1) usuwanie
+2) rozpakowywanie
+3) koniec"
 }
-
-
-function usuwanie { 
-echo "wybierz podopcje  
-1)Usuwanie plików zaczynających się na .
-2)Usuwanie plików nieużywanych przez więcej niż 7 dni
-3)Usuwanie plików nieużywanych przez więcej niż 2 miesiące
-4)Usuwanie plików nieużywanych przez więcej niż 6 miesięcy
-5)Usuwanie plików nieużywanych przez więcej niż 1 rok
-6)Koniec"
-
-select b in 1 2 3 4 
+function usuwanie { 
+echo "wybierz podopcje: "
+select b in "usuwanie plików zaczynających się na ." "usuwanie plików nieużywanych przez więcej niż 7 dni" "usuwanie plików nieużywanych przez więcej niż 1 miesiąc" "usuwanie plików nieużywanych przez więcej niż 6 miesięcy" "usuwanie plików nieużywanych przez więcej niż 1 rok" "powrót do poprzedniego menu" "koniec"
 do
 case $b in
-    1) find . -maxdepth 1 -type f -iname '.*' -delete ;;
-    2) find . -maxdepth 1 -type f -mtime +7 -delete ;;
-    3) find . -maxdepth 1 -type f -mtime +61 -delete;;
-    4) find . -maxdepth 1 -type f -mtime +182 -delete;;
-    5) find . -maxdepth 1 -type f -mtime +365 -delete;;
-    6) exit 0;;
-    *) echo "Nic nie wybrałeś"
-  esac
+   "usuwanie plików zaczynających się na .") 
+find . -maxdepth 1 -type f -iname '.*'
+find . -maxdepth 1 -type f -iname '.*' -delete ;;
+    "usuwanie plików nieużywanych przez więcej niż 7 dni") 
+find . -maxdepth 1 -type f -mtime +7 -delete ;;
+    "usuwanie plików nieużywanych przez więcej niż 1 miesiąc") 
+find . -maxdepth 1 -type f -mtime +30 -delete;;
+    "usuwanie plików nieużywanych przez więcej niż 6 miesięcy") 
+find . -maxdepth 1 -type f -mtime +182 -delete;;
+    "usuwanie plików nieużywanych przez więcej niż 1 rok") find . -maxdepth 1 -type f -mtime +365 -delete;;
+    "powrót do poprzedniego menu")
+poczatek
+return 0 ;;
+    "koniec")
+echo "miłego dnia :)" 
+exit ;;
+    *) echo "Nic nie wybrałeś"
+  esac
+  done
+} 
 
-  break
-  done
-} 
+function rozpakowywanie {
+echo "Podaj nazwe archiwum:"
+read plik
+echo "Podaj katalog docelowy:"
+read doc
 
+if [ -f "$plik" ] ;
+then
+         case "$plik" in
+ *.tar.bz2) tar xjfC $plik $doc ;;
+*.tar.gz) tar xzfC $plik $doc ;;
+*.tar) tar xfC $plik $doc ;;
+*.tbz2) tar xjfC $plik $doc ;;
+*.tgz) tar xzfC $plik $doc ;;
+*.gz) gunzip -c $plik $doc ;;
+*.rar) unrar x $plik $doc ;;
+*.zip) unzip $plik -d $doc ;;
+*.Z) uncompress -c $plik $doc ;;
+*.7z) 7z xo $plik $doc ;;
+*) echo "'$plik' nie moze zostac rozpakowany" ;;
+esac
+else
+         echo "'$plik' nie jest poprawnym plikiem"
+fi
+poczatek
+}
 
-  echo 'Program ten może uporządkować pliki na różne sposoby'
-echo "wybierz opcje  
-1)Usuwanie zbędnych plików
-2)Sortowanie plików z tworzeniem folderów
-3)koniec"
-
-select a in 1 2 3 4 
+hflag=
+vflag=
+aflag=
+while getopts hvf:q OPT; do
+case $OPT in
+h) hflag=1;;
+v) vflag=1;;
+a) aflag=1;;
+q) exit;;
+*) echo "Bledny arg!";;
+esac
+done
+if [ ! -z $hflag ]; then
+echo "----POMOC----"
+echo "Jest to prosty, który usuwa lub rozpakowuje."
+echo "opcje:" 
+echo "-h pomoc"
+echo "-v wersja"
+echo" -a autor"
+echo
+echo "-------------"
+fi
+if [ ! -z $vflag ]; then
+echo "Version 1.0.0.0"
+fi
+if [ ! -z $aflag ]; then
+echo "autor: Magdalena Płotka"
+fi
+echo "wybierz opcje:"
+select a in "usuwanie" "rozpakowywanie"  "koniec"
 do
 case $a in
-    1) usuwanie;;
-    2) sortowanie;;
-    3) exit 0;;
-    *) echo "Nic nie wybrałeś"
-  esac
-    break
-  done
+"usuwanie") usuwanie;;
+"rozpakowywanie" ) sortowanie;;
+ "koniec") echo "miłego dnia"
+                  exit 0;;
+    *) echo "Nic nie wybrałeś"
+  esac
+    break
+  done
