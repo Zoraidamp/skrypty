@@ -3,36 +3,41 @@ Organizator.sh
 #!/bin/bash
 # Magdalena Płotka
 function poczatek {
- echo "wybierz co chcesz robić: 
+ echo "wybierz co chcesz robić: 
 1) usuwanie
 2) rozpakowywanie
 3) koniec"
 }
-function usuwanie { 
+function usuwanie { 
 echo "wybierz podopcje: "
 select b in "usuwanie plików zaczynających się na ." "usuwanie plików nieużywanych przez więcej niż 7 dni" "usuwanie plików nieużywanych przez więcej niż 1 miesiąc" "usuwanie plików nieużywanych przez więcej niż 6 miesięcy" "usuwanie plików nieużywanych przez więcej niż 1 rok" "powrót do poprzedniego menu" "koniec"
 do
 case $b in
-   "usuwanie plików zaczynających się na .") 
+   "usuwanie plików zaczynających się na .") 
 find . -maxdepth 1 -type f -iname '.*'
-find . -maxdepth 1 -type f -iname '.*' -delete ;;
-    "usuwanie plików nieużywanych przez więcej niż 7 dni") 
-find . -maxdepth 1 -type f -mtime +7 -delete ;;
-    "usuwanie plików nieużywanych przez więcej niż 1 miesiąc") 
-find . -maxdepth 1 -type f -mtime +30 -delete;;
-    "usuwanie plików nieużywanych przez więcej niż 6 miesięcy") 
-find . -maxdepth 1 -type f -mtime +182 -delete;;
-    "usuwanie plików nieużywanych przez więcej niż 1 rok") find . -maxdepth 1 -type f -mtime +365 -delete;;
-    "powrót do poprzedniego menu")
+find . -maxdepth 1 -type f -iname '.*' -delete 
+poczatek;;
+    "usuwanie plików nieużywanych przez więcej niż 7 dni") 
+find . -maxdepth 1 -type f -mtime +7 -delete 
+poczatek;;
+    "usuwanie plików nieużywanych przez więcej niż 1 miesiąc") 
+find . -maxdepth 1 -type f -mtime +30 -delete
+poczatek;;
+    "usuwanie plików nieużywanych przez więcej niż 6 miesięcy") 
+find . -maxdepth 1 -type f -mtime +182 -delete
+poczatek;;
+    "usuwanie plików nieużywanych przez więcej niż 1 rok") find . -maxdepth 1 -type f -mtime +365 -delete
+    poczatek;;
+    "powrót do poprzedniego menu")
 poczatek
 return 0 ;;
-    "koniec")
-echo "miłego dnia :)" 
+    "koniec")
+echo "miłego dnia :)" 
 exit ;;
-    *) echo "Nic nie wybrałeś"
-  esac
-  done
-} 
+    *) echo "Nic nie wybrałeś"
+  esac
+  done
+} 
 
 function rozpakowywanie {
 echo "Podaj nazwe archiwum:"
@@ -42,8 +47,8 @@ read doc
 
 if [ -f "$plik" ] ;
 then
-         case "$plik" in
- *.tar.bz2) tar xjfC $plik $doc ;;
+         case "$plik" in
+ *.tar.bz2) tar xjfC $plik $doc ;;
 *.tar.gz) tar xzfC $plik $doc ;;
 *.tar) tar xfC $plik $doc ;;
 *.tbz2) tar xjfC $plik $doc ;;
@@ -56,9 +61,8 @@ then
 *) echo "'$plik' nie moze zostac rozpakowany" ;;
 esac
 else
-         echo "'$plik' nie jest poprawnym plikiem"
+         echo "'$plik' nie jest poprawnym plikiem"
 fi
-poczatek
 }
 
 hflag=
@@ -76,7 +80,7 @@ done
 if [ ! -z $hflag ]; then
 echo "----POMOC----"
 echo "Jest to prosty, który usuwa lub rozpakowuje."
-echo "opcje:" 
+echo "opcje:" 
 echo "-h pomoc"
 echo "-v wersja"
 echo" -a autor"
@@ -90,14 +94,15 @@ if [ ! -z $aflag ]; then
 echo "autor: Magdalena Płotka"
 fi
 echo "wybierz opcje:"
-select a in "usuwanie" "rozpakowywanie"  "koniec"
+select a in "usuwanie" "rozpakowywanie"  "koniec"
 do
 case $a in
 "usuwanie") usuwanie;;
-"rozpakowywanie" ) sortowanie;;
- "koniec") echo "miłego dnia"
-                  exit 0;;
-    *) echo "Nic nie wybrałeś"
-  esac
-    break
-  done
+"rozpakowywanie" ) rozpakowywanie;;
+ "koniec") echo "miłego dnia"
+                  exit 0;;
+    *) echo "Nic nie wybrałeś"
+  esac
+    break
+  done
+
