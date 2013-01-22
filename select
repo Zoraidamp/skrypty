@@ -1,6 +1,7 @@
 Organizator.sh
 
 #!/bin/bash
+# Magdalena Płotka
 function poczatek {
  echo "wybierz co chcesz robić: 
 1) usuwanie
